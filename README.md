@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="Asset/qwek-logo.jpeg" alt="Qwek logo" width="480">
+</p>
+
 # Qwek
 
 A realtime chat client for the terminal, built with .NET 10 and Spectre.Console.
@@ -320,3 +324,13 @@ scripts/    Release packaging
 install.sh  Linux installer
 install.ps1 Windows installer
 ```
+
+## Contributing
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for development setup, testing, and pull
+request guidelines.
+
+## License
+
+Released under the [MIT License](LICENSE).
+
