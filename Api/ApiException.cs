@@ -1,4 +1,4 @@
-namespace RealTimeAppsTui.Api;
+namespace Qwek.Api;
 
 public sealed class ApiException : Exception
 {

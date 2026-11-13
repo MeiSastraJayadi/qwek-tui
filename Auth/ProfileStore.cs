@@ -1,8 +1,8 @@
 using System.Text;
 using System.Text.Json;
-using RealTimeAppsTui.Api;
+using Qwek.Api;
 
-namespace RealTimeAppsTui.Auth;
+namespace Qwek.Auth;
 
 public sealed record SessionProfile(
     string Name,
@@ -341,7 +341,7 @@ public static class ProfileStore
     private static string ResolveProfilesDirectory()
     {
         string? overrideDirectory =
-            Environment.GetEnvironmentVariable("RTCHAT_PROFILES_DIR");
+            Environment.GetEnvironmentVariable("QWEK_PROFILES_DIR");
 
         if (!string.IsNullOrWhiteSpace(overrideDirectory))
         {
@@ -353,7 +353,7 @@ public static class ProfileStore
             string appData = Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData);
 
-            return Path.Combine(appData, "RtChat", "profiles");
+            return Path.Combine(appData, "Qwek", "profiles");
         }
 
         string? xdgConfig =
@@ -364,7 +364,7 @@ public static class ProfileStore
                 ".config")
             : xdgConfig;
 
-        return Path.Combine(configDirectory, "rtchat", "profiles");
+        return Path.Combine(configDirectory, "qwek", "profiles");
     }
 
     private static void RestrictDirectory()

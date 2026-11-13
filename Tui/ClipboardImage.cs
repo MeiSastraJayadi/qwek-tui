@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Diagnostics;
 
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 public static class ClipboardImage
 {
@@ -45,7 +45,7 @@ public static class ClipboardImage
                 Add-Type -AssemblyName System.Windows.Forms
                 Add-Type -AssemblyName System.Drawing
 
-                $base = $env:RTCHAT_CLIPBOARD_IMAGE_BASE
+                $base = $env:QWEK_CLIPBOARD_IMAGE_BASE
                 $image = $null
 
                 if ([System.Windows.Forms.Clipboard]::ContainsImage()) {
@@ -117,7 +117,7 @@ public static class ClipboardImage
         startInfo.ArgumentList.Add("-STA");
         startInfo.ArgumentList.Add("-Command");
         startInfo.ArgumentList.Add(script);
-        startInfo.Environment["RTCHAT_CLIPBOARD_IMAGE_BASE"] = basePath;
+        startInfo.Environment["QWEK_CLIPBOARD_IMAGE_BASE"] = basePath;
 
         using Process process = new() { StartInfo = startInfo };
 

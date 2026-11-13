@@ -5,11 +5,11 @@ using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Microsoft.AspNetCore.SignalR.Client;
-using RealTimeAppsTui.Api;
-using RealTimeAppsTui.Config;
+using Qwek.Api;
+using Qwek.Config;
 using Spectre.Console;
 
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 public sealed partial class TuiApp : IAsyncDisposable
 {
@@ -1773,7 +1773,7 @@ public sealed partial class TuiApp : IAsyncDisposable
 
         string tempDirectory = Path.Combine(
             Path.GetTempPath(),
-            "rtchat-paste-" + Guid.NewGuid().ToString("N"));
+            "qwek-paste-" + Guid.NewGuid().ToString("N"));
 
         try
         {

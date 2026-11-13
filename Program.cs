@@ -1,8 +1,8 @@
 ﻿using System.Text;
-using RealTimeAppsTui.Api;
-using RealTimeAppsTui.Auth;
-using RealTimeAppsTui.Config;
-using RealTimeAppsTui.Tui;
+using Qwek.Api;
+using Qwek.Auth;
+using Qwek.Config;
+using Qwek.Tui;
 using Spectre.Console;
 
 Console.OutputEncoding = Encoding.UTF8;
@@ -130,7 +130,7 @@ static AppOptions ParseOptions(string[] args)
 
     if (url is null)
     {
-        string? environmentUrl = Environment.GetEnvironmentVariable("REALTIME_APPS_URL");
+        string? environmentUrl = Environment.GetEnvironmentVariable("QWEK_URL");
 
         if (!string.IsNullOrWhiteSpace(environmentUrl))
         {
@@ -185,7 +185,7 @@ static void PrintHelp(string baseUrl)
 {
     Branding.RenderBanner("Realtime server chat in your terminal.");
     AnsiConsole.MarkupLine("[bold]Usage[/]");
-    AnsiConsole.MarkupLine("  [blue]rtchat [grey][[options]][/][/]");
+    AnsiConsole.MarkupLine("  [blue]qwek [grey][[options]][/][/]");
     AnsiConsole.MarkupLine("  [blue]dotnet run -- [grey][[options]][/][/]");
     AnsiConsole.WriteLine();
     AnsiConsole.MarkupLine("[bold]Options[/]");
@@ -199,8 +199,8 @@ static void PrintHelp(string baseUrl)
     AnsiConsole.MarkupLine("  [grey]Type /help in the message box for commands[/]");
     AnsiConsole.WriteLine();
     AnsiConsole.MarkupLine("[bold]Environment[/]");
-    AnsiConsole.MarkupLine("  [blue]REALTIME_APPS_URL[/]     Backend base URL");
-    AnsiConsole.MarkupLine("  [blue]RTCHAT_PROFILES_DIR[/]   Override the profile storage directory");
+    AnsiConsole.MarkupLine("  [blue]QWEK_URL[/]            Backend base URL");
+    AnsiConsole.MarkupLine("  [blue]QWEK_PROFILES_DIR[/]   Override the profile storage directory");
     AnsiConsole.WriteLine();
     AnsiConsole.MarkupLine("[bold]Profiles[/]");
     AnsiConsole.MarkupLine($"  [grey]{Markup.Escape(ProfileStore.ProfilesDirectory)}[/]");

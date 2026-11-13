@@ -1,7 +1,7 @@
 using System.Reflection;
 using Spectre.Console;
 
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 internal static class Branding
 {

@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = 'Stop'
 
 $root = Split-Path -Parent $PSScriptRoot
-$project = Join-Path $root 'RealTimeAppsTui.csproj'
+$project = Join-Path $root 'Qwek.csproj'
 
 if (-not $OutputDir) {
     $OutputDir = Join-Path $root 'dist'
@@ -34,8 +34,8 @@ if (-not $tar) {
 New-Item -ItemType Directory -Force -Path $OutputDir | Out-Null
 Get-ChildItem -Path $OutputDir -File |
     Where-Object {
-        $_.Name -match '^rtchat-(win|linux)-(x64|arm64)\.(zip|tar\.gz)$' -or
-        $_.Name -eq 'rtchat-checksums.txt'
+        $_.Name -match '^qwek-(win|linux)-(x64|arm64)\.(zip|tar\.gz)$' -or
+        $_.Name -eq 'qwek-checksums.txt'
     } |
     Remove-Item -Force
 Remove-Item (Join-Path $OutputDir '.work') -Recurse -Force -ErrorAction SilentlyContinue
@@ -54,7 +54,7 @@ foreach ($rid in $rids) {
         -p:EnableCompressionInSingleFile=true `
         -p:DebugType=None `
         -p:DebugSymbols=false `
-        -p:AssemblyName=rtchat `
+        -p:AssemblyName=qwek `
         -p:Version=$numericVersion `
         -o $work
 
@@ -63,12 +63,12 @@ foreach ($rid in $rids) {
     }
 
     if ($rid -like 'win-*') {
-        Compress-Archive -Path (Join-Path $work 'rtchat.exe') `
-            -DestinationPath (Join-Path $OutputDir "rtchat-$rid.zip") -Force
+        Compress-Archive -Path (Join-Path $work 'qwek.exe') `
+            -DestinationPath (Join-Path $OutputDir "qwek-$rid.zip") -Force
     } else {
         Push-Location $work
         try {
-            & tar --mode=755 -czf "../../rtchat-$rid.tar.gz" 'rtchat'
+            & tar --mode=755 -czf "../../qwek-$rid.tar.gz" 'qwek'
             if ($LASTEXITCODE -ne 0) {
                 throw "tar failed for $rid."
             }
@@ -79,19 +79,19 @@ foreach ($rid in $rids) {
 }
 
 $archives = Get-ChildItem -Path $OutputDir -File |
-    Where-Object { $_.Name -like 'rtchat-*.zip' -or $_.Name -like 'rtchat-*.tar.gz' } |
+    Where-Object { $_.Name -like 'qwek-*.zip' -or $_.Name -like 'qwek-*.tar.gz' } |
     Sort-Object Name
 
 $lines = foreach ($archive in $archives) {
     $hash = (Get-FileHash -Path $archive.FullName -Algorithm SHA256).Hash.ToLowerInvariant()
     "$hash  $($archive.Name)"
 }
-$lines | Set-Content -Path (Join-Path $OutputDir 'rtchat-checksums.txt') -Encoding ascii
+$lines | Set-Content -Path (Join-Path $OutputDir 'qwek-checksums.txt') -Encoding ascii
 
 Remove-Item (Join-Path $OutputDir '.work') -Recurse -Force
 
 Write-Host ''
-Write-Host "Built RtChat TUI $numericVersion packages in ${OutputDir}:"
+Write-Host "Built Qwek TUI $numericVersion packages in ${OutputDir}:"
 foreach ($archive in $archives) {
     Write-Host ("  {0} ({1:N1} MB)" -f $archive.Name, ($archive.Length / 1MB))
 }

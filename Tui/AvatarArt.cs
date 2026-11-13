@@ -1,7 +1,7 @@
 using System.Text;
 using StbImageSharp;
 
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 internal sealed record AvatarArt(IReadOnlyList<string> Lines);
 

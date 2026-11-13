@@ -1,4 +1,4 @@
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 internal sealed record EmojiEntry(
     string Symbol,

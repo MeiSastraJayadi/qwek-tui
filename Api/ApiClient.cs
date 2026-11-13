@@ -2,7 +2,7 @@ using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text.Json;
 
-namespace RealTimeAppsTui.Api;
+namespace Qwek.Api;
 
 public sealed class ApiClient : IDisposable
 {

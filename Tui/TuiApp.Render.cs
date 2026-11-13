@@ -1,9 +1,9 @@
 using System.Text;
-using RealTimeAppsTui.Api;
+using Qwek.Api;
 using Spectre.Console;
 using Spectre.Console.Rendering;
 
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 public sealed partial class TuiApp
 {

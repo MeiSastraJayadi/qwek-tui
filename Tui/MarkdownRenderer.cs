@@ -1,7 +1,7 @@
 using System.Text;
 using Spectre.Console;
 
-namespace RealTimeAppsTui.Tui;
+namespace Qwek.Tui;
 
 internal sealed record MarkdownLine(string Markup, int PlainLength);
 

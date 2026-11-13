@@ -2,10 +2,7 @@
 
 A realtime chat client for the terminal, built with .NET 10 and Spectre.Console.
 
-> The executable, repository, and legacy profile paths still use `rtchat` for
-> compatibility.
-
-Qwek connects to a RealtimeApps backend over HTTP and SignalR. It is designed for
+Qwek connects to the backend over HTTP and SignalR. It is designed for
 keyboard-driven use on Windows and Linux, with a full-screen TUI, avatars, markdown,
 attachments, profiles, unread tracking, and live social features.
 
@@ -30,7 +27,7 @@ attachments, profiles, unread tracking, and live social features.
 
 - Windows 10+ or Linux
 - An interactive terminal of at least 64x18
-- A running RealtimeApps backend
+- A running Qwek backend
 - For source builds: the .NET 10 SDK
 - For clipboard image paste on Linux: `wl-paste` (Wayland) or `xclip` (X11)
 - A terminal with Unicode and emoji support is recommended
@@ -43,11 +40,11 @@ The default backend URL is `http://localhost:5206`.
 ### Windows
 
 ```powershell
-Invoke-WebRequest -Uri https://raw.githubusercontent.com/kadekmei/rtchat-tui/master/install.ps1 -OutFile install.ps1
+Invoke-WebRequest -Uri https://raw.githubusercontent.com/MeiSastraJayadi/qwek-tui/master/install.ps1 -OutFile install.ps1
 powershell -ExecutionPolicy Bypass -File .\install.ps1
 ```
 
-By default the installer places `rtchat.exe` in `%LOCALAPPDATA%\Programs\RtChat`
+By default the installer places `qwek.exe` in `%LOCALAPPDATA%\Programs\Qwek`
 and adds that directory to your user `PATH`.
 
 Options:
@@ -66,7 +63,7 @@ when the .NET 10 SDK is installed.
 ### Linux
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kadekmei/rtchat-tui/master/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/MeiSastraJayadi/qwek-tui/master/install.sh | bash
 ```
 
 The installer uses `/usr/local` when its `bin` directory is writable and
@@ -84,15 +81,15 @@ Options:
 ### From source
 
 ```bash
-git clone https://github.com/kadekmei/rtchat-tui.git
-cd rtchat-tui
+git clone https://github.com/MeiSastraJayadi/qwek-tui.git
+cd qwek-tui
 dotnet run -- --url http://localhost:5206
 ```
 
 ## Run
 
 ```text
-rtchat [options]
+qwek [options]
 ```
 
 | Option | Description |
@@ -106,27 +103,27 @@ Environment variables:
 
 | Variable | Description |
 | --- | --- |
-| `REALTIME_APPS_URL` | Backend base URL |
-| `RTCHAT_PROFILES_DIR` | Override the profile storage directory |
-| `RTCHAT_CONFIG_DIR` | Override the configuration directory |
+| `QWEK_URL` | Backend base URL |
+| `QWEK_PROFILES_DIR` | Override the profile storage directory |
+| `QWEK_CONFIG_DIR` | Override the configuration directory |
 
 Examples:
 
 ```bash
-rtchat --profile alice
-rtchat --profile bob
-rtchat --url https://chat.example.com
-rtchat --logout --profile alice
-rtchat --logout
+qwek --profile alice
+qwek --profile bob
+qwek --url https://chat.example.com
+qwek --logout --profile alice
+qwek --logout
 ```
 
 ### Saved accounts
 
 Sessions are stored as separate JSON profiles:
 
-- Windows: `%APPDATA%\RtChat\profiles\alice.json`
-- Linux: `$XDG_CONFIG_HOME/rtchat/profiles/alice.json`,
-  normally `~/.config/rtchat/profiles/alice.json`
+- Windows: `%APPDATA%\Qwek\profiles\alice.json`
+- Linux: `$XDG_CONFIG_HOME/qwek/profiles/alice.json`,
+  normally `~/.config/qwek/profiles/alice.json`
 
 Each profile is tied to its backend URL and user ID. If multiple profiles exist
 for the current backend, Qwek shows an account picker at startup. Profiles store
@@ -137,8 +134,8 @@ the current user.
 
 Optional configuration lives at:
 
-- Windows: `%APPDATA%\RtChat\config.json`
-- Linux: `~/.config/rtchat/config.json`
+- Windows: `%APPDATA%\Qwek\config.json`
+- Linux: `~/.config/qwek/config.json`
 
 Choose whether `Enter` or `Ctrl+Enter` sends a message:
 
@@ -254,7 +251,7 @@ supports copied image files. On Linux it uses `wl-paste` or `xclip`.
 
 ## Backend
 
-Qwek expects the RealtimeApps backend with:
+Qwek expects a backend with:
 
 - JWT authentication
 - REST endpoints under `/api`
@@ -277,7 +274,7 @@ Run that command from the backend project directory.
 Build the project:
 
 ```bash
-dotnet build RealTimeAppsTui.csproj
+dotnet build Qwek.csproj
 ```
 
 Run with a local backend:
@@ -289,7 +286,7 @@ dotnet run -- --url http://localhost:5206
 Run from a published binary:
 
 ```bash
-dotnet publish RealTimeAppsTui.csproj -c Release -r <runtime-id> --self-contained true -p:PublishSingleFile=true
+dotnet publish Qwek.csproj -c Release -r <runtime-id> --self-contained true -p:PublishSingleFile=true
 ```
 
 Supported runtime identifiers are `win-x64`, `win-arm64`, `linux-x64`, and

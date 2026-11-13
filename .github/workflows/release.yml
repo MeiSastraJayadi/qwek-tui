@@ -35,6 +35,6 @@ jobs:
           gh release create "$GITHUB_REF_NAME" \
             dist/*.zip \
             dist/*.tar.gz \
-            dist/rtchat-checksums.txt \
+            dist/qwek-checksums.txt \
             --title "$GITHUB_REF_NAME" \
             --generate-notes

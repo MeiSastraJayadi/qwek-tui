@@ -1,8 +1,8 @@
-using RealTimeAppsTui.Api;
-using RealTimeAppsTui.Tui;
+using Qwek.Api;
+using Qwek.Tui;
 using Spectre.Console;
 
-namespace RealTimeAppsTui.Auth;
+namespace Qwek.Auth;
 
 public static class AuthFlow
 {

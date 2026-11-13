@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-REPO="kadekmei/rtchat-tui"
-APP="rtchat"
+REPO="MeiSastraJayadi/qwek-tui"
+APP="qwek"
 VERSION=""
 PREFIX=""
 FROM_SOURCE=0
@@ -10,7 +10,7 @@ UNINSTALL=0
 
 usage() {
     cat <<'EOF'
-Install RtChat TUI on Linux.
+Install Qwek TUI on Linux.
 
 Usage:
   ./install.sh [options]
@@ -20,14 +20,14 @@ Options:
   --prefix <dir>     Install prefix (default: /usr/local when writable,
                      otherwise ~/.local)
   --from-source      Build and install from source with the .NET 10 SDK
-  --uninstall        Remove the installed rtchat binary
+  --uninstall        Remove the installed qwek binary
   -h, --help         Show this help
 
 Environment:
-  RTCHAT_RELEASE_BASE  Override the release download base URL
+  QWEK_RELEASE_BASE  Override the release download base URL
 
 Examples:
-  curl -fsSL https://raw.githubusercontent.com/kadekmei/rtchat-tui/master/install.sh | bash
+  curl -fsSL https://raw.githubusercontent.com/MeiSastraJayadi/qwek-tui/master/install.sh | bash
   ./install.sh --prefix "$HOME/.local"
 EOF
 }
@@ -121,7 +121,7 @@ download() {
     elif have wget; then
         wget --tries=3 --timeout=15 -O "$dest" "$url"
     else
-        err "curl or wget is required to download RtChat"
+        err "curl or wget is required to download Qwek"
     fi
 }
 
@@ -156,8 +156,8 @@ download_first() {
 release_urls() {
     local asset="$1"
 
-    if [[ -n "${RTCHAT_RELEASE_BASE:-}" ]]; then
-        printf '%s/%s\n' "${RTCHAT_RELEASE_BASE%/}" "$asset"
+    if [[ -n "${QWEK_RELEASE_BASE:-}" ]]; then
+        printf '%s/%s\n' "${QWEK_RELEASE_BASE%/}" "$asset"
     elif [[ -n "$VERSION" ]]; then
         printf 'https://github.com/%s/releases/download/%s/%s\n' "$REPO" "$VERSION" "$asset"
         if [[ "$VERSION" != v* ]]; then
@@ -232,7 +232,7 @@ build_from_source() {
     tar -xzf "$source_archive" -C "$source_dir" --strip-components=1
 
     info "building from source (this may take a few minutes)"
-    dotnet publish "$source_dir/RealTimeAppsTui.csproj" \
+    dotnet publish "$source_dir/Qwek.csproj" \
         -c Release \
         -r "linux-$RID_ARCH" \
         --self-contained true \
@@ -240,10 +240,10 @@ build_from_source() {
         -p:EnableCompressionInSingleFile=true \
         -p:DebugType=None \
         -p:DebugSymbols=false \
-        -p:AssemblyName=rtchat \
+        -p:AssemblyName=qwek \
         -o "$TMP_DIR/publish"
 
-    install_binary "$TMP_DIR/publish/rtchat"
+    install_binary "$TMP_DIR/publish/qwek"
 }
 
 TMP_DIR="$(mktemp -d)"
@@ -252,19 +252,19 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 if ((FROM_SOURCE)); then
     build_from_source
 else
-    ASSET="rtchat-linux-$RID_ARCH.tar.gz"
+    ASSET="qwek-linux-$RID_ARCH.tar.gz"
     urls=()
 
     mapfile -t urls < <(release_urls "$ASSET")
 
     if download_first "$TMP_DIR/$ASSET" "${urls[@]}"; then
         sum_urls=()
-        mapfile -t sum_urls < <(release_urls "rtchat-checksums.txt")
-        download_first "$TMP_DIR/rtchat-checksums.txt" "${sum_urls[@]}" || true
+        mapfile -t sum_urls < <(release_urls "qwek-checksums.txt")
+        download_first "$TMP_DIR/qwek-checksums.txt" "${sum_urls[@]}" || true
 
-        verify_checksum "$TMP_DIR/$ASSET" "$ASSET" "$TMP_DIR/rtchat-checksums.txt"
+        verify_checksum "$TMP_DIR/$ASSET" "$ASSET" "$TMP_DIR/qwek-checksums.txt"
         tar -xzf "$TMP_DIR/$ASSET" -C "$TMP_DIR"
-        install_binary "$TMP_DIR/rtchat"
+        install_binary "$TMP_DIR/qwek"
     elif have dotnet; then
         info "no release build available to download"
         info "falling back to building from source with the .NET SDK"

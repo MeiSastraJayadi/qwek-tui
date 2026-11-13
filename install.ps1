@@ -17,8 +17,8 @@ try {
 } catch {
 }
 
-$Repo = 'kadekmei/rtchat-tui'
-$AppName = 'rtchat'
+$Repo = 'MeiSastraJayadi/qwek-tui'
+$AppName = 'qwek'
 
 function Write-Info([string]$Message) {
     Write-Host "==> $Message"
@@ -40,7 +40,7 @@ switch ($arch) {
 }
 
 if (-not $InstallDir) {
-    $InstallDir = Join-Path $env:LOCALAPPDATA 'Programs\RtChat'
+    $InstallDir = Join-Path $env:LOCALAPPDATA 'Programs\Qwek'
 }
 $InstallDir = [IO.Path]::GetFullPath($InstallDir)
 $BinaryPath = Join-Path $InstallDir "$AppName.exe"
@@ -107,7 +107,7 @@ function Invoke-Download {
 }
 
 function Get-ReleaseUrls([string]$Asset) {
-    $base = $env:RTCHAT_RELEASE_BASE
+    $base = $env:QWEK_RELEASE_BASE
     if ($base) {
         return @("$($base.TrimEnd('/'))/$Asset")
     }
@@ -186,7 +186,7 @@ function Install-FromSource {
 
     Write-Info 'building from source (this may take a few minutes)'
     $publishDir = Join-Path $temp 'publish'
-    & dotnet publish (Join-Path $projectDir.FullName 'RealTimeAppsTui.csproj') `
+    & dotnet publish (Join-Path $projectDir.FullName 'Qwek.csproj') `
         -c Release `
         -r "win-$RidArch" `
         --self-contained true `
@@ -194,7 +194,7 @@ function Install-FromSource {
         -p:EnableCompressionInSingleFile=true `
         -p:DebugType=None `
         -p:DebugSymbols=false `
-        -p:AssemblyName=rtchat `
+        -p:AssemblyName=qwek `
         -o $publishDir
 
     if ($LASTEXITCODE -ne 0) {
@@ -204,7 +204,7 @@ function Install-FromSource {
     Install-Binary (Join-Path $publishDir "$AppName.exe")
 }
 
-$temp = Join-Path ([IO.Path]::GetTempPath()) ("rtchat-install-" + [Guid]::NewGuid().ToString('N'))
+$temp = Join-Path ([IO.Path]::GetTempPath()) ("qwek-install-" + [Guid]::NewGuid().ToString('N'))
 New-Item -ItemType Directory -Path $temp -Force | Out-Null
 
 try {
@@ -223,13 +223,13 @@ try {
     if ($FromSource) {
         Install-FromSource
     } else {
-        $asset = "rtchat-win-$RidArch.zip"
+        $asset = "qwek-win-$RidArch.zip"
         $archive = Join-Path $temp $asset
         $releaseUrls = Get-ReleaseUrls $asset
 
         if (Invoke-Download -Urls $releaseUrls -Destination $archive) {
-            $checksums = Join-Path $temp 'rtchat-checksums.txt'
-            if (Invoke-Download -Urls (Get-ReleaseUrls 'rtchat-checksums.txt') -Destination $checksums) {
+            $checksums = Join-Path $temp 'qwek-checksums.txt'
+            if (Invoke-Download -Urls (Get-ReleaseUrls 'qwek-checksums.txt') -Destination $checksums) {
                 Test-Checksum -Archive $archive -ArchiveName $asset -ChecksumsPath $checksums
             }
 

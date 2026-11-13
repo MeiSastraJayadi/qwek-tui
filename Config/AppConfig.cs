@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace RealTimeAppsTui.Config;
+namespace Qwek.Config;
 
 public sealed record AppConfig(string SendKey)
 {
@@ -53,7 +53,7 @@ public sealed record AppConfig(string SendKey)
     private static string ResolveConfigDirectory()
     {
         string? overrideDirectory =
-            Environment.GetEnvironmentVariable("RTCHAT_CONFIG_DIR");
+            Environment.GetEnvironmentVariable("QWEK_CONFIG_DIR");
 
         if (!string.IsNullOrWhiteSpace(overrideDirectory))
         {
@@ -65,7 +65,7 @@ public sealed record AppConfig(string SendKey)
             string appData = Environment.GetFolderPath(
                 Environment.SpecialFolder.ApplicationData);
 
-            return Path.Combine(appData, "RtChat");
+            return Path.Combine(appData, "Qwek");
         }
 
         string? xdgConfig =
@@ -76,6 +76,6 @@ public sealed record AppConfig(string SendKey)
                 ".config")
             : xdgConfig;
 
-        return Path.Combine(configDirectory, "rtchat");
+        return Path.Combine(configDirectory, "qwek");
     }
 }
