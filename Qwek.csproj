@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Asset/qwek-logo.jpeg" />
+    <EmbeddedResource Include="Asset/qwek-logo.png" />
   </ItemGroup>
 
 </Project>

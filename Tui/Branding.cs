@@ -61,7 +61,7 @@ internal static class Branding
             string? resourceName = assembly
                 .GetManifestResourceNames()
                 .FirstOrDefault(name => name.EndsWith(
-                    "qwek-logo.jpeg",
+                    "qwek-logo.png",
                     StringComparison.OrdinalIgnoreCase));
 
             if (resourceName is null)

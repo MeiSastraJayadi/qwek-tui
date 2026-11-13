@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Asset/qwek-logo.jpeg" alt="Qwek logo" width="480">
+  <img src="Asset/qwek-logo.png" alt="Qwek logo" width="480">
 </p>
 
 # Qwek
