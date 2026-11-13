@@ -7,6 +7,7 @@ using Qwek.Tui;
 using Spectre.Console;
 
 Console.OutputEncoding = Encoding.UTF8;
+LoadDotEnv();
 
 try
 {
@@ -160,6 +161,74 @@ static AppOptions ParseOptions(string[] args)
         profile,
         logout,
         help);
+}
+
+static void LoadDotEnv()
+{
+    string[] candidates =
+    [
+        Path.Combine(Directory.GetCurrentDirectory(), ".env"),
+        Path.Combine(AppContext.BaseDirectory, ".env")
+    ];
+
+    string? path = candidates.FirstOrDefault(File.Exists);
+
+    if (path is null)
+    {
+        return;
+    }
+
+    string[] lines;
+
+    try
+    {
+        lines = File.ReadAllLines(path);
+    }
+    catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
+    {
+        return;
+    }
+
+    foreach (string rawLine in lines)
+    {
+        string line = rawLine.Trim();
+
+        if (line.Length == 0 || line.StartsWith('#'))
+        {
+            continue;
+        }
+
+        int separator = line.IndexOf('=');
+
+        if (separator <= 0)
+        {
+            continue;
+        }
+
+        string key = line[..separator].Trim();
+
+        if (key.StartsWith("export ", StringComparison.Ordinal))
+        {
+            key = key["export ".Length..].Trim();
+        }
+
+        string value = line[(separator + 1)..].Trim();
+
+        if (value.Length >= 2 &&
+            ((value[0] == '"' && value[^1] == '"') ||
+             (value[0] == '\'' && value[^1] == '\'')))
+        {
+            value = value[1..^1];
+        }
+
+        if (key.Length == 0 ||
+            Environment.GetEnvironmentVariable(key) is not null)
+        {
+            continue;
+        }
+
+        Environment.SetEnvironmentVariable(key, value);
+    }
 }
 
 static string? ReadDefaultBackendUrl()

@@ -109,6 +109,9 @@ Environment variables:
 | `QWEK_PROFILES_DIR` | Override the profile storage directory |
 | `QWEK_CONFIG_DIR` | Override the configuration directory |
 
+A local `.env` file in the working directory is loaded automatically when present.
+Existing environment variables take precedence.
+
 Examples:
 
 ```bash
