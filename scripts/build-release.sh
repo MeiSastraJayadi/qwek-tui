@@ -5,6 +5,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 PROJECT="$ROOT/Qwek.csproj"
 OUT_DIR="${1:-$ROOT/dist}"
 RIDS=(win-x64 win-arm64 linux-x64 linux-arm64)
+DEFAULT_BACKEND_URL="${QWEK_DEFAULT_BACKEND_URL:-}"
 
 if [[ -z "${VERSION:-}" ]]; then
     VERSION="$(git -C "$ROOT" describe --tags --always 2>/dev/null || true)"
@@ -21,6 +22,11 @@ rm -rf "$OUT_DIR/.work"
 
 publish() {
     local rid="$1" work="$2"
+    local backend_arg=""
+
+    if [[ -n "$DEFAULT_BACKEND_URL" ]]; then
+        backend_arg="-p:DefaultBackendUrl=$DEFAULT_BACKEND_URL"
+    fi
 
     dotnet publish "$PROJECT" \
         -c Release \
@@ -31,6 +37,7 @@ publish() {
         -p:DebugType=None \
         -p:DebugSymbols=false \
         -p:AssemblyName=qwek \
+        ${backend_arg:+"$backend_arg"} \
         -p:Version="$VERSION" \
         -o "$work"
 }

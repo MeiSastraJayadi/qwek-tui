@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [string]$OutputDir,
-    [string]$Version
+    [string]$Version,
+    [string]$DefaultBackendUrl = $env:QWEK_DEFAULT_BACKEND_URL
 )
 
 $ErrorActionPreference = 'Stop'
@@ -41,6 +42,10 @@ Get-ChildItem -Path $OutputDir -File |
 Remove-Item (Join-Path $OutputDir '.work') -Recurse -Force -ErrorAction SilentlyContinue
 
 $rids = @('win-x64', 'win-arm64', 'linux-x64', 'linux-arm64')
+$backendArgs = @()
+if ($DefaultBackendUrl) {
+    $backendArgs += "-p:DefaultBackendUrl=$DefaultBackendUrl"
+}
 
 foreach ($rid in $rids) {
     $work = Join-Path $OutputDir ".work/$rid"
@@ -55,6 +60,7 @@ foreach ($rid in $rids) {
         -p:DebugType=None `
         -p:DebugSymbols=false `
         -p:AssemblyName=qwek `
+        @backendArgs `
         -p:Version=$numericVersion `
         -o $work
 

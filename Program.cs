@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Reflection;
+using System.Text;
 using Qwek.Api;
 using Qwek.Auth;
 using Qwek.Config;
@@ -29,7 +30,7 @@ catch (ArgumentException ex)
 
 if (options.Help)
 {
-    PrintHelp(options.BaseUrl);
+    PrintHelp();
     return 0;
 }
 
@@ -139,7 +140,13 @@ static AppOptions ParseOptions(string[] args)
         }
     }
 
-    url ??= "http://localhost:5206";
+    url ??= ReadDefaultBackendUrl();
+
+    if (string.IsNullOrWhiteSpace(url))
+    {
+        throw new ArgumentException(
+            "No backend URL configured. Use --url or set QWEK_URL.");
+    }
 
     if (!Uri.TryCreate(url, UriKind.Absolute, out Uri? parsed) ||
         (parsed.Scheme != Uri.UriSchemeHttp && parsed.Scheme != Uri.UriSchemeHttps))
@@ -153,6 +160,17 @@ static AppOptions ParseOptions(string[] args)
         profile,
         logout,
         help);
+}
+
+static string? ReadDefaultBackendUrl()
+{
+    string? value = Assembly.GetExecutingAssembly()
+        .GetCustomAttributes<AssemblyMetadataAttribute>()
+        .FirstOrDefault(attribute =>
+            string.Equals(attribute.Key, "DefaultBackendUrl", StringComparison.Ordinal))
+        ?.Value;
+
+    return string.IsNullOrWhiteSpace(value) ? null : value.Trim();
 }
 
 static string ResolveProfileBaseUrl(AppOptions options)
@@ -181,7 +199,7 @@ static string ResolveProfileBaseUrl(AppOptions options)
     return ProfileStore.NormalizeBaseUrl(profile.BaseUrl);
 }
 
-static void PrintHelp(string baseUrl)
+static void PrintHelp()
 {
     Branding.RenderBanner("Realtime server chat in your terminal.");
     AnsiConsole.MarkupLine("[bold]Usage[/]");
@@ -208,8 +226,6 @@ static void PrintHelp(string baseUrl)
     AnsiConsole.MarkupLine("[bold]Config[/]");
     AnsiConsole.MarkupLine($"  [grey]{Markup.Escape(AppConfig.ConfigPath)}[/]");
     AnsiConsole.MarkupLine("  [grey]sendKey: \"enter\" (default) or \"ctrl+enter\"[/]");
-    AnsiConsole.WriteLine();
-    AnsiConsole.MarkupLine($"[grey]Default backend:[/] [blue]{Markup.Escape(baseUrl)}[/]");
 }
 
 sealed record AppOptions(

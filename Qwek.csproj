@@ -6,6 +6,7 @@
     <AssemblyName>qwek</AssemblyName>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <DefaultBackendUrl Condition="'$(DefaultBackendUrl)' == ''">http://localhost:5206</DefaultBackendUrl>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,6 +17,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="Asset/qwek-logo.png" />
+    <AssemblyMetadata Include="DefaultBackendUrl" Value="$(DefaultBackendUrl)" />
   </ItemGroup>
 
 </Project>

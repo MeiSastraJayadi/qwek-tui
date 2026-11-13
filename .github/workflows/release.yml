@@ -24,7 +24,12 @@ jobs:
       - name: Build packages
         env:
           VERSION: ${{ github.ref_name }}
+          QWEK_DEFAULT_BACKEND_URL: ${{ vars.QWEK_DEFAULT_BACKEND_URL }}
         run: |
+          if [[ -z "$QWEK_DEFAULT_BACKEND_URL" ]]; then
+            echo "error: set the QWEK_DEFAULT_BACKEND_URL repository variable" >&2
+            exit 1
+          fi
           chmod +x scripts/build-release.sh
           ./scripts/build-release.sh dist
 

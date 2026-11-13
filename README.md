@@ -37,8 +37,6 @@ attachments, profiles, unread tracking, and live social features.
 - A terminal with Unicode and emoji support is recommended
 - Clickable links require a terminal with OSC 8 hyperlink support
 
-The default backend URL is `http://localhost:5206`.
-
 ## Install
 
 ### Windows
@@ -87,7 +85,7 @@ Options:
 ```bash
 git clone https://github.com/MeiSastraJayadi/qwek-tui.git
 cd qwek-tui
-dotnet run -- --url http://localhost:5206
+dotnet run
 ```
 
 ## Run
@@ -309,9 +307,11 @@ Create self-contained packages for Windows and Linux:
 ```
 
 The scripts produce `win-x64`, `win-arm64`, `linux-x64`, and `linux-arm64`
-packages in `dist/`, with a SHA-256 checksum file. Pushing a tag like `v1.0.0`
-runs `.github/workflows/release.yml`, builds the packages, and publishes a GitHub
-release that the install scripts consume.
+packages in `dist/`, with a SHA-256 checksum file. Release builds receive the
+default backend URL from the `QWEK_DEFAULT_BACKEND_URL` GitHub Actions repository
+variable, which must be set before pushing a release tag. Pushing a tag like
+`v1.0.0` runs `.github/workflows/release.yml`, builds the packages, and publishes
+a GitHub release that the install scripts consume.
 
 ## Project structure
 
