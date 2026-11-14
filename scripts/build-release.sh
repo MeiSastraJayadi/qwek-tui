@@ -17,6 +17,7 @@ if [[ ! "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+ ]]; then
 fi
 
 mkdir -p "$OUT_DIR"
+OUT_DIR="$(cd "$OUT_DIR" && pwd)"
 rm -f "$OUT_DIR"/qwek-*.zip "$OUT_DIR"/qwek-*.tar.gz "$OUT_DIR"/qwek-checksums.txt
 rm -rf "$OUT_DIR/.work"
 
