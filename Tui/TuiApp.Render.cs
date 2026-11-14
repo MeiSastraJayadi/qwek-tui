@@ -1603,11 +1603,6 @@ public sealed partial class TuiApp
         int avatarWidth = ProfileAvatarWidth;
         int gutter = 2;
         int textWidth = Math.Max(8, width - avatarWidth - gutter);
-        string avatar = string.IsNullOrWhiteSpace(profile.AvatarUrl)
-            ? "(none)"
-            : profile.AvatarUrl.StartsWith('/')
-                ? _api.BaseUrl + profile.AvatarUrl
-                : profile.AvatarUrl;
 
         List<string> fieldLines = [];
         AddProfileFieldLines(
@@ -1619,7 +1614,6 @@ public sealed partial class TuiApp
             "Email",
             string.IsNullOrWhiteSpace(profile.Email) ? "(none)" : profile.Email,
             textWidth);
-        AddProfileFieldLines(fieldLines, "Avatar", avatar, textWidth);
         AddProfileFieldLines(
             fieldLines, "User ID", profile.UserId, textWidth);
 
